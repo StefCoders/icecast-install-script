@@ -52,10 +52,8 @@ curl -O ${ICECAST_URL}
 check_success "Icecast download"
 
 print_message "Extracting Icecast files..."
-if file "${ICECAST_VERSION}.tar.gz" | grep -q gzip; then
     tar -xvzf ${ICECAST_VERSION}.tar.gz
     check_success "File extraction"
-else
     echo -e "\033[1;31m[ERROR]\033[0m Downloaded file is not a valid gzip archive. Please check the download URL."
     exit 1
 fi
