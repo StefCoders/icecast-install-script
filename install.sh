@@ -1,8 +1,9 @@
 #!/bin/bash
 
 # Variables
-ICECAST_VERSION="icecast-2.4.4"
+ICECAST_VERSION="icecast-2.4.4"  # Update if a newer version is released
 INSTALL_DIR=$(pwd)
+ICECAST_URL="http://downloads.xiph.org/releases/icecast/${ICECAST_VERSION}.tar.gz"
 SERVICE_NAME="icecast"
 
 # Functions
@@ -31,6 +32,32 @@ read -p "Do you wish to proceed with the installation? (y/n): " confirm
 if [[ "$confirm" != "y" ]]; then
   echo "Installation aborted."
   exit 0
+fi
+
+print_separator
+
+# Update system and install prerequisites
+print_message "Step 1: Updating system and installing necessary packages..."
+sudo apt-get update
+check_success "System update"
+
+sudo apt-get install -y build-essential curl tar
+check_success "Package installation"
+
+print_separator
+
+# Download and extract Icecast
+print_message "Step 2: Downloading Icecast source files..."
+curl -O ${ICECAST_URL}
+check_success "Icecast download"
+
+print_message "Extracting Icecast files..."
+if file "${ICECAST_VERSION}.tar.gz" | grep -q gzip; then
+    tar -xzf ${ICECAST_VERSION}.tar.gz
+    check_success "File extraction"
+else
+    echo -e "\033[1;31m[ERROR]\033[0m Downloaded file is not a valid gzip archive. Please check the download URL."
+    exit 1
 fi
 
 print_separator
