@@ -1,4 +1,4 @@
-# Icecast Install Script
+# Icecast Install Script - DOESN'T WORK!!!
 This script will quickly install Icecast to the current running directory and make a service to make it run at startup.
 
 ## Usage:
